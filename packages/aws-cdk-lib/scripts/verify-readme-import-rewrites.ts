@@ -38,8 +38,10 @@ const EXPECTED_SUBMODULE_IMPORTS = {
 };
 
 Object.entries(EXPECTED_SUBMODULE_IMPORTS).forEach(([submodule, importStatement]) => {
-  const submoduleReadme = jsiiManifest.submodules[submodule].readme.markdown;
-  if (!submoduleReadme.includes(importStatement)) {
+  const submoduleReadme = jsiiManifest.submodules[submodule]?.readme?.markdown;
+  if (!submoduleReadme) {
+    throw new Error(`jsii manifest for submodule ${submodule} not found`);
+  } else if (!submoduleReadme.includes(importStatement)) {
     const errorMessage = `Expected to find import statement in ${submodule} README: ${importStatement}\n` +
       'This may mean the README has changed and this test needs to be updated, or the uberGen rewriteReadmeImports method is broken.';
     throw new Error(errorMessage);
