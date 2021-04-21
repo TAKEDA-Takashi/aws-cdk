@@ -18,6 +18,7 @@ if (!fs.existsSync(jsiiManifestPath)) {
 }
 
 const jsiiManifest = JSON.parse(fs.readFileSync(jsiiManifestPath, { encoding: 'utf-8' }));
+console.log(JSON.stringify(jsiiManifest)); // eslint-disable-line
 
 // Expected import statements chosen from the individual module READMEs to have a breadth of styles and syntax.
 // If this test fails because one of the below import statements is invalid,
@@ -41,8 +42,6 @@ Object.entries(EXPECTED_SUBMODULE_IMPORTS).forEach(([submodule, importStatement]
   const submoduleReadme = jsiiManifest.submodules[submodule]?.readme?.markdown;
   if (!submoduleReadme) {
     console.log(Object.keys(jsiiManifest.submodules)); // eslint-disable-line
-    console.log(Object.keys(jsiiManifest.submodules[submodule])); // eslint-disable-line
-    console.log(Object.keys(jsiiManifest.submodules[submodule]?.readme)); // eslint-disable-line
     throw new Error(`jsii manifest for submodule ${submodule} not found`);
   } else if (!submoduleReadme.includes(importStatement)) {
     const errorMessage = `Expected to find import statement in ${submodule} README: ${importStatement}\n` +
