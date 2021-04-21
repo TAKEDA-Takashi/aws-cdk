@@ -40,6 +40,7 @@ const EXPECTED_SUBMODULE_IMPORTS = {
 Object.entries(EXPECTED_SUBMODULE_IMPORTS).forEach(([submodule, importStatement]) => {
   const submoduleReadme = jsiiManifest.submodules[submodule]?.readme?.markdown;
   if (!submoduleReadme) {
+    console.log(Object.keys(jsiiManifest.submodules)); // eslint-disable-line
     throw new Error(`jsii manifest for submodule ${submodule} not found`);
   } else if (!submoduleReadme.includes(importStatement)) {
     const errorMessage = `Expected to find import statement in ${submodule} README: ${importStatement}\n` +
